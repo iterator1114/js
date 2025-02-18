@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .task__container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 300px;
+            margin: 10px 0;
+            padding: 10px 5px;
+            background-color: #e0dfdf;
+            border-radius: 4px;
+        }
+
+        .left__part p {
+            font-size: 20px;
+            font-weight: medium;
+        }
+
+        .right__part {
+            display: flex;
+            gap: 5px;
+        }
+
+        .right__part button {
+            padding: 4px;
+            background-color: white;
+            border: solid 1px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main">
+        <h1>Todo List</h1>
+        <form id="myForm">
+            <input type="text" name="addtolist" id="addtolist" required />
+            <button type="submit" class="submit__button">submit</button>
+        </form>
+        <div class="container"></div>
+    </main>
+    <script>
+
+        const form = document.querySelector('form')
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const inputValue = e.target.addtolist.value;
+            const taskContainer = document.querySelector(".container")
+            const taskElement = document.createElement("div")
+
+            taskElement.classList.add("task__container")
+
+            const leftPart = document.createElement("div")
+            const taskItem = document.createElement("p")
+            taskItem.innerHTML = inputValue
+            e.target.addtolist.value = ""
+
+            leftPart.appendChild(taskItem)
+            leftPart.classList.add("left__part")
+
+            const rightPart = document.createElement('div')
+
+            const deleteButton = document.createElement("button")
+            deleteButton.innerHTML = 'Delete'
+            const markCompeleteButton = document.createElement("button")
+            markCompeleteButton.innerHTML = 'Mark as Complete'
+
+            rightPart.appendChild(markCompeleteButton)
+            rightPart.appendChild(deleteButton)
+
+            rightPart.classList.add("right__part")
+
+            taskElement.appendChild(leftPart)
+            taskElement.appendChild(rightPart)
+
+            taskContainer.appendChild(taskElement)
+
+            markCompeleteButton.addEventListener("click", () => {
+                if (taskItem.style.textDecoration === 'line-through') {
+                    taskItem.style.textDecoration = 'initial'
+                    markCompeleteButton.innerHTML = 'Mark as Complete'
+                } else {
+                    taskItem.style.textDecoration = 'line-through'
+                    markCompeleteButton.innerHTML = 'undo'
+                }
+            })
+
+            deleteButton.addEventListener("click", () => {
+                taskContainer.removeChild(taskElement)
+            })
+
+        }
+        form.addEventListener('submit', handleSubmit)
+    </script>
+</body>
+
+</html>

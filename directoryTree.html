@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directory Tree Widget from JSON</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .directory-tree {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .folder {
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    .folder-name {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .file {
+      margin-left: 40px;
+      color: #7f8c8d;
+    }
+
+    ul {
+      padding-left: 20px;
+      display: none;  /* Hidden by default */
+    }
+
+    ul.open {
+      display: block;
+    }
+
+    .folder.open > ul {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="directory-tree" class="directory-tree"></div>
+
+  <script>
+    // Sample JSON data representing directory structure
+    const jsonData = {
+      "name": "Root",
+      "type": "folder",
+      "children": [
+        {
+          "name": "Folder 1",
+          "type": "folder",
+          "children": [
+            {
+              "name": "Subfolder 1.1",
+              "type": "folder",
+              "children": [
+                { "name": "File 1.1.1", "type": "file" },
+                { "name": "File 1.1.2", "type": "file" }
+              ]
+            },
+            { "name": "File 1.2", "type": "file" }
+          ]
+        },
+        { "name": "File 2", "type": "file" },
+        {
+          "name": "Folder 3",
+          "type": "folder"
+        }
+      ]
+    };
+
+    // Function to create the directory tree from JSON
+    function createTree(data) {
+      const ul = document.createElement('ul');
+      
+      const li = document.createElement('li');
+      if (data.type === 'folder') {
+        const folderName = document.createElement('span');
+        folderName.className = 'folder-name';
+        folderName.textContent = data.name;
+        
+        li.classList.add('folder');
+        li.appendChild(folderName);
+
+        if (data.children && data.children.length > 0) {
+          const subTree = createTree({ children: data.children }); // Recursive call
+          li.appendChild(subTree);
+        }
+
+        folderName.addEventListener('click', function() {
+          li.classList.toggle('open');
+        });
+      } else if (data.type === 'file') {
+        const fileName = document.createElement('span');
+        fileName.className = 'file';
+        fileName.textContent = data.name;
+        
+        li.classList.add('file');
+        li.appendChild(fileName);
+      }
+
+      ul.appendChild(li);
+      return ul;
+    }
+
+    const tree = createTree(jsonData);
+    document.getElementById('directory-tree').appendChild(tree);
+  </script>
+
+</body>
+</html>

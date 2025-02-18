@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        .container {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myForm">
+        <input type="text" name="username" value="JohnDoe">
+        <input type="email" name="email" value="john@example.com">
+
+        <input type="checkbox" name="hobbies" value="Reading" checked>
+        <input type="checkbox" name="hobbies" value="Gaming" checked>
+
+        <input type="radio" name="gender" value="Male" checked>
+        <input type="radio" name="gender" value="Female">
+
+        <select name="country">
+            <option value="USA" selected>USA</option>
+            <option value="Canada">Canada</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function serializeForm(form) {
+            const formData = new FormData(form);
+            const obj = {};
+
+            // Convert FormData to an Object
+            // formData.forEach((value, key) => {
+            for ([value, key] of formData) {
+                // Handle multiple values (e.g., checkboxes with the same name)
+                console.log(key, value, obj[key])
+                // if (obj[key]) {
+                //     obj[key] = Array.isArray(obj[key]) ? [...obj[key], value] : [obj[key], value];
+                // } else {
+                obj[key] = value;
+                // }
+            };
+
+            return obj;
+        }
+
+        // Convert Object to JSON String
+        function serializeFormToJSON(form) {
+            return JSON.stringify(serializeForm(form));
+        }
+
+        // Convert Object to Query String (URL Encoded)
+        function serializeFormToQueryString(form) {
+            console.log(serializeForm(form));
+            return new URLSearchParams(serializeForm(form)).toString();
+        }
+
+
+
+        // Example Usage
+        document.querySelector("form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent actual form submission
+
+            console.log(this)
+            const formObj = serializeForm(this);
+            console.log("Serialized Object:", formObj);
+
+            const jsonString = serializeFormToJSON(this);
+            console.log("Serialized JSON:", jsonString);
+
+            const queryString = serializeFormToQueryString(this);
+            console.log("Serialized Query String:", queryString);
+        });
+
+    </script>
+</body>
+
+</html>

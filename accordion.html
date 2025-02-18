@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 0 60px 0;
+        }
+
+        .accordion {
+            background-color: #ebe5e5;
+            margin: 10px 0px 10px 0px;
+            min-width: 300px;
+            border-radius: 5px;
+        }
+
+        .accordion__header {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 10px 15px 10px;
+            cursor: pointer;
+        }
+
+        .icon__expand {
+            display: block;
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+        .icon__collapse {
+            display: none;
+            font-size: 20px;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+
+        .accordion__description {
+            padding: 20px 10px 20px 10px;
+            background-color: aliceblue;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="accordion" data-value="1">
+            <div class="accordion__header">
+                <div class="accordion__title">This is Accordion title 1</div>
+                <div class="icon__expand">+</div>
+                <div class="icon__collapse">-</div>
+            </div>
+            <div class="accordion__description">
+                This is accordion content 1
+            </div>
+        </div>
+        <div class="accordion" data-value="2">
+            <div class="accordion__header">
+                <div class="accordion__title">This is Accordion title 2</div>
+                <div class="icon__expand">+</div>
+                <div class="icon__collapse">-</div>
+            </div>
+            <div class="accordion__description">
+                This is accordion content 2
+            </div>
+        </div>
+        <div class="accordion" data-value="3">
+            <div class="accordion__header">
+                <div class="accordion__title">This is Accordion title 3</div>
+                <div class="icon__expand">+</div>
+                <div class="icon__collapse">-</div>
+            </div>
+            <div class="accordion__description">
+                This is accordion content 3
+            </div>
+        </div>
+        <div class="accordion" data-value="4">
+            <div class="accordion__header">
+                <div class="accordion__title">This is Accordion title 4</div>
+                <div class="icon__expand">+</div>
+                <div class="icon__collapse">-</div>
+            </div>
+            <div class="accordion__description">
+                This is accordion content 4
+            </div>
+        </div>
+        <div id="multiple">
+            <input type="checkbox" id="checkbox" name="checkbox" />
+            <label for="checkbox">Multiple</label>
+        </div>
+    </main>
+
+    <script>
+        const accordions = document.querySelectorAll(".accordion")
+        const multiple = document.getElementById("checkbox")
+
+        const toggleAccordion = (accordion, multiple) => {
+            const expandIcon = accordion.querySelector(".icon__expand")
+            const collapseIcon = accordion.querySelector(".icon__collapse")
+            const description = accordion.querySelector(".accordion__description")
+
+            // Fix: Ensure description has an initial style if it's hidden by default in CSS.
+            if (description.style.display === '' && window.getComputedStyle(description).display === 'none') {
+                description.style.display = 'none'; // If no inline style, set it to 'none'.
+            }
+
+            if (description.style.display === 'none') {
+                description.style.display = 'block';
+                expandIcon.style.display = 'none';
+                collapseIcon.style.display = 'block';
+            } else {
+                description.style.display = 'none';
+                expandIcon.style.display = 'block';
+                collapseIcon.style.display = 'none';
+            }
+
+            if (!multiple.checked) {
+                accordions.forEach((otherAccordion) => {
+                    if (otherAccordion !== accordion) {
+                        otherAccordion.querySelector(".icon__expand").style.display = 'block';
+                        otherAccordion.querySelector(".icon__collapse").style.display = 'none';
+                        otherAccordion.querySelector(".accordion__description").style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        accordions.forEach((accordion) => {
+            const accordionHeader = accordion.querySelector(".accordion__header")
+            accordionHeader.addEventListener("click", () => {
+                toggleAccordion(accordion, multiple)
+            })
+        })
+
+
+        const firstAccordion = accordions[0]
+        toggleAccordion(firstAccordion, multiple)
+
+    </script>
+</body>
+
+</html>

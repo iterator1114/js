@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        table,
+        th,
+        td,
+        tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Search Name</h1>
+    <div class="container">
+        <input name="search" type="text" id="search" />
+    </div>
+
+    <div class="container">
+        <table style="width: 80%;">
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        </table>
+    </div>
+    <script>
+
+        const table = document.querySelector('table')
+        let userData = []
+
+        async function fetchUser() {
+            if (userData.length === 0) {
+                const res = await fetch('https://dummyjson.com/users')
+                const data = await res.json();
+                userData = data.users;
+            }
+            renderTable(userData);
+        }
+
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span style="font-weight: bold;">$1</span>');
+        }
+
+        function renderTable(user, searchTerm = "") {
+            user.map((user) => {
+                const highlightedFirstName = highlightText(user.firstName, searchTerm);
+                const highlightedLastName = highlightText(user.lastName, searchTerm);
+                const tempUser = `
+            <tr>
+                <td>${highlightedFirstName}</td>
+                <td>${highlightedLastName}</td>
+            </tr>
+        `
+                table.innerHTML += tempUser
+            })
+        }
+
+        const inputValue = document.getElementById('search')
+        inputValue.addEventListener('input', () => {
+            const searchTerm = inputValue.value.toLowerCase().trim()
+            table.innerHTML = ""
+            if (searchTerm === "") {
+                table.innerHTML = `
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        `
+                fetchUser();
+            } else {
+                const filteredUser = userData.filter((user) => user.firstName.toLowerCase().includes(searchTerm))
+                table.innerHTML = `
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        `
+                renderTable(filteredUser, searchTerm)
+            }
+        })
+
+
+        fetchUser();
+
+
+
+    </script>
+</body>
+
+</html>

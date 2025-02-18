@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like Button</title>
+    <style>
+        .like-btn {
+            background-color: transparent;
+            border: 2px solid #ff9900;
+            color: #ff9900;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .like-btn.liked {
+            background-color: #ff9900;
+            color: white;
+        }
+
+        #like-icon {
+            font-size: 18px;
+        }
+
+        #like-count {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="like-button" class="like-btn">
+        <span id="like-icon">👍</span> Like (<span id="like-count">0</span>)
+    </button>
+
+    <script>
+        const likeButton = document.getElementById("like-button");
+        const likeIcon = document.getElementById("like-icon");
+        const likeCount = document.getElementById("like-count");
+
+        let count = 0;
+
+        likeButton.addEventListener("click", () => {
+            likeButton.classList.toggle("liked");
+            if (likeButton.classList.contains("liked")) {
+                count++;
+            } else {
+                count--;
+            }
+            likeCount.textContent = count;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .tree {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .folder {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .folder::before {
+            content: "📂 ";
+        }
+
+        .file::before {
+            content: "📄 ";
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Directory Tree</h2>
+
+    <ul class="tree">
+        <li>
+            <span class="folder" onclick="toggleFolder(this)">Project</span>
+            <ul class="tree hidden">
+                <li>
+                    <span class="folder" onclick="toggleFolder(this)">src</span>
+                    <ul class="tree hidden">
+                        <li><span class="file">index.js</span></li>
+                        <li><span class="file">app.js</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="folder" onclick="toggleFolder(this)">assets</span>
+                    <ul class="tree hidden">
+                        <li><span class="file">logo.png</span></li>
+                        <li><span class="file">style.css</span></li>
+                    </ul>
+                </li>
+                <li><span class="file">README.md</span></li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        function toggleFolder(folderElement) {
+            const sublist = folderElement.nextElementSibling;
+            if (sublist) {
+                sublist.classList.toggle("hidden");
+            }
+        }
+    </script>
+
+</body>
+</html>

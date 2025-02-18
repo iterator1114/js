@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Auto-Complete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .suggestions {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .suggestions div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestions div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="searchBox" placeholder="Search...">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+    
+    <script>
+        const searchBox = document.getElementById("searchBox");
+        const suggestionsContainer = document.getElementById("suggestions");
+        
+        const suggestions = [
+            "Laptop",
+            "Laptop Stand",
+            "Laptop Bag",
+            "Laptop Charger",
+            "Laptop Table",
+            "Laptop Cooling Pad",
+            "Laptop Cover",
+            "Laptop Mouse",
+            "Laptop Keyboard",
+            "Laptop Case"
+        ];
+        
+        searchBox.addEventListener("input", () => {
+            const query = searchBox.value.toLowerCase();
+            suggestionsContainer.innerHTML = "";
+            if (query) {
+                const filteredSuggestions = suggestions.filter(item => item.toLowerCase().includes(query));
+                if (filteredSuggestions.length > 0) {
+                    suggestionsContainer.style.display = "block";
+                    filteredSuggestions.forEach(suggestion => {
+                        const div = document.createElement("div");
+                        div.textContent = suggestion;
+                        div.addEventListener("click", () => {
+                            searchBox.value = suggestion;
+                            suggestionsContainer.style.display = "none";
+                        });
+                        suggestionsContainer.appendChild(div);
+                    });
+                } else {
+                    suggestionsContainer.style.display = "none";
+                }
+            } else {
+                suggestionsContainer.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!searchBox.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+                suggestionsContainer.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

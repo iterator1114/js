@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Widget</title>
+    <style>
+        /* Style for the tab container */
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .tab:hover {
+            background-color: #bbb;
+        }
+
+        /* Style for the active tab */
+        .active-tab {
+            background-color: #ff9900;
+            color: white;
+        }
+
+        /* Content area style */
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #f9f9f9;
+        }
+
+        /* Display active content */
+        .active-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tab buttons -->
+    <div class="tabs">
+        <div class="tab active-tab" onclick="switchTab(event, 'tab1')">Tab 1</div>
+        <div class="tab" onclick="switchTab(event, 'tab2')">Tab 2</div>
+        <div class="tab" onclick="switchTab(event, 'tab3')">Tab 3</div>
+    </div>
+
+    <!-- Tab content -->
+    <div id="tab1" class="tab-content active-content">
+        <h2>Tab 1 Content</h2>
+        <p>This is the content for the first tab.</p>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <h2>Tab 2 Content</h2>
+        <p>This is the content for the second tab.</p>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <h2>Tab 3 Content</h2>
+        <p>This is the content for the third tab.</p>
+    </div>
+
+    <script>
+        function switchTab(event, tabId) {
+            // Remove the active-tab class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active-tab'));
+            event.target.classList.add('active-tab');
+            // Hide all tab content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active-content'));
+            // Display the corresponding content
+            const activeContent = document.getElementById(tabId);
+            activeContent.classList.add('active-content');
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .carousel__container {
+            width: 500px;
+            position: relative;
+        }
+
+        .carousel-img {
+            height: 300px;
+            width: 500px;
+            object-fit: cover;
+        }
+
+        .arrow__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .left_arrow,
+        .right_arrow {
+            background-color: rgb(235, 227, 227);
+            padding: 8px;
+            font-size: 20px;
+            font-weight: bolder;
+            border-radius: 100%;
+            cursor: pointer;
+            margin: 0 30px;
+            position: absolute;
+            top: 40%;
+        }
+
+        .left_arrow {
+            left: 0%;
+        }
+
+        .right_arrow {
+            right: 0%;
+        }
+
+        .checkbox__container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="carousel__container">
+            <div class="img-container"></div>
+            <div class="arrow__container">
+                <div class="left_arrow">&larr;</div>
+                <div class="right_arrow">&rarr;</div>
+            </div>
+        </div>
+        <div class="checkbox__container">
+            <input type="checkbox" id='checkbox' name="checkbox">
+            <label for="checkbox">Automated</label>
+        </div>
+    </div>
+
+    <script>
+        const images = [
+            {
+                src: "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759",
+                alt: "A beautiful sunrise over the mountains",
+                title: "Sunrise in the Mountains",
+            },
+            {
+                src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+                alt: "A cityscape at night with bright lights",
+                title: "City Lights at Night",
+            },
+            {
+                src: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                alt: "A calm beach with clear blue water",
+                title: "Relaxing Beach",
+            },
+        ];
+
+
+        const imageContainer = document.querySelector(".img-container");
+        const arrowContainer = document.querySelector(".arrow__container");
+        const leftArrow = document.querySelector(".left_arrow")
+        const rightArrow = document.querySelector(".right_arrow")
+        const checkbox = document.getElementById("checkbox")
+
+        var index = 0;
+        const len = images.length
+
+        let imgElement = document.createElement("img")
+        imgElement.src = images[index].src;
+        imgElement.alt = images[index].alt
+        imgElement.classList.add("carousel-img")
+
+        imageContainer.appendChild(imgElement)
+
+        function rightHandler() {
+            index++;
+            imgElement.src = images[index % len].src
+            imgElement.alt = images[index % len].alt
+        }
+
+        function leftHandler() {
+            index--;
+            if (index < 0) index = len - 1
+            imgElement.src = images[index % len].src
+            imgElement.alt = images[index % len].alt
+        }
+
+        rightArrow.addEventListener('click', rightHandler)
+        leftArrow.addEventListener('click', leftHandler)
+
+        let timer = null;
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                timer = setInterval(rightHandler, 1000)
+            } else {
+                clearInterval(timer)
+            }
+        })
+    </script>
+</body>
+
+</html>

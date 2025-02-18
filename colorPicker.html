@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .color-box {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            border-radius: 10px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select a Color</h2>
+    <input type="color" id="colorPicker" value="#ff0000">
+    <div class="color-box" id="colorBox" style="background-color: #ff0000;">#ff0000</div>
+    
+    <script>
+        const colorPicker = document.getElementById("colorPicker");
+        const colorBox = document.getElementById("colorBox");
+        
+        colorPicker.addEventListener("input", (event) => {
+            const color = event.target.value;
+            colorBox.style.backgroundColor = color;
+            colorBox.textContent = color;
+        });
+
+        colorBox.addEventListener("click", () => {
+            navigator.clipboard.writeText(colorBox.textContent).then(() => {
+                alert("Color code copied: " + colorBox.textContent);
+            });
+        });
+    </script>
+</body>
+</html>
+
