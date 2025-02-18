@@ -1,73 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directory Tree</title>
+    <title>StarWidget</title>
+    <link rel="stylesheet" href="./index.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
         }
 
-        .tree {
-            list-style-type: none;
-            padding-left: 20px;
+        .star__widget {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4;
         }
 
-        .folder {
+        .star__widget .star {
+            font-size: 100px;
+            color: #e4e4e4;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .folder::before {
-            content: "📂 ";
-        }
-
-        .file::before {
-            content: "📄 ";
-        }
-
-        .hidden {
-            display: none;
+        .star__widget .star__color {
+            color: gold
         }
     </style>
 </head>
+
 <body>
+    <main>
+        <div class="star__widget">
 
-    <h2>Directory Tree</h2>
-
-    <ul class="tree">
-        <li>
-            <span class="folder" onclick="toggleFolder(this)">Project</span>
-            <ul class="tree hidden">
-                <li>
-                    <span class="folder" onclick="toggleFolder(this)">src</span>
-                    <ul class="tree hidden">
-                        <li><span class="file">index.js</span></li>
-                        <li><span class="file">app.js</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="folder" onclick="toggleFolder(this)">assets</span>
-                    <ul class="tree hidden">
-                        <li><span class="file">logo.png</span></li>
-                        <li><span class="file">style.css</span></li>
-                    </ul>
-                </li>
-                <li><span class="file">README.md</span></li>
-            </ul>
-        </li>
-    </ul>
-
+        </div>
+        <div class="review__count">Rating is: 0</div>
+    </main>
     <script>
-        function toggleFolder(folderElement) {
-            const sublist = folderElement.nextElementSibling;
-            if (sublist) {
-                sublist.classList.toggle("hidden");
-            }
-        }
-    </script>
 
+        let count = 0;
+
+        const starWidget = document.querySelector(".star__widget")
+        const reviewCount = document.querySelector(".review__count")
+
+        function buildWidget(numberOfStars) {
+            for (let i = 1; i <= numberOfStars; i++) {
+                const starContainer = document.createElement("span")
+                starContainer.innerHTML = '&#9733'
+                starContainer.classList.add("star")
+                starContainer.setAttribute("data-value", i)
+                starWidget.appendChild(starContainer)
+            }
+
+            const stars = document.querySelectorAll(".star")
+            stars.forEach((item) => {
+                item.addEventListener("mouseover", () => {
+                    const value = parseInt(item.getAttribute("data-value"))
+                    highLightStar(value)
+                })
+
+                item.addEventListener("mouseout", () => {
+                    highLightStar(count)
+                })
+
+                item.addEventListener('click', () => {
+                    const value = parseInt(item.getAttribute("data-value"))
+                    count = value;
+                    reviewCount.innerHTML = `Rating is: ${count}`
+                    highLightStar(count)
+                })
+            })
+        }
+
+        function highLightStar(selectedValue) {
+            const stars = document.querySelectorAll(".star")
+            stars.forEach((star) => {
+                const value = parseInt(star.getAttribute("data-value"))
+                if (value <= selectedValue) {
+                    star.classList.add("star__color")
+                } else {
+                    star.classList.remove("star__color")
+                }
+            })
+
+        }
+        buildWidget(5)
+
+    </script>
 </body>
+
 </html>
